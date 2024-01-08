@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css"> <!-- 피씨버전 -->
+  <link rel="stylesheet" href="css/responsive.css"> <!-- 모바일버전 반응형 -->
+  <title> AFG EVENT </title>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+  text-align: center;
+  padding: 32px;
+}
+
+.row {
+  display: -ms-flexbox; /* IE 10 */
+  display: flex;
+  -ms-flex-wrap: wrap; /* IE 10 */
+  flex-wrap: wrap;
+}
+
+/* Create two equal columns that sits next to each other */
+.column {
+  -ms-flex: 50%; /* IE 10 */
+  flex: 50%;
+}
+
+.column img {
+  vertical-align: middle;
+}
+
+/* Style the buttons */
+.btn {
+  border: none;
+  outline: none;
+  padding: 10px 16px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.nextbtn {
+  border: 4px solid white;
+  border-radius: 12pt;
+  background-color: black;
+  width: 180pt;
+  height: 50pt;
+  cursor: pointer;
+  font-size: 16pt;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+}
+
+.btn:hover {
+  background-color: #ddd;
+}
+
+.btn.active {
+  background-color: #666;
+  color: white;
+}
+
+.small {
+	font-size: xx-small;
+}
+.larger {
+	font-size: larger;
+}
+.point {
+	font-size: 18pt;
+    color: black;
+    text-align: left;
+}
+.percent {
+	font-size: 200%;
+}
+
+.text {
+    margin-left: 10px; 
+    margin-right: 10px; 
+    border: 0; 
+    outline: 0; 
+    border-bottom:  2px solid lightgray; 
+    background-color: whitesmoke; 
+    font-size: 18pt;
+}
+
+@media all and (max-width: 768px){
+
+  .text {
+    font-size: 12pt;
+  }
+}
+
+</style>
+</head>
+<body>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  
+  <button type="button" style="margin-top: 15pt; margin-left: 15pt; margin-bottom: 10pt; border: 0; background-color: white;" onclick="callBack()">
+    <img src="/images/backArrow.jpg" > 
+  </button>
+  <div class="row" id="step1"> 
+    <div class="column">
+      <img src="/images/02.jpg" style="width:100%;">
+    </div>
+    <div class="column" style="background-color :whitesmoke; align-items: left;  display: flex;  justify-content: center; flex-direction: column; padding-left: 10pt; " >
+      <strong class="point" style="margin-left: 10px; line-height: 40pt;">성함을 알려주세요.</strong>
+      <strong class="point" style="margin-left: 10px; font-weight: normal; font-size: 14pt; line-height: 40pt;">주민등록상 이름을 알려주세요.</strong>
+      <input class="text"  name="nameField" id="nameField" placeholder="이름을 입력하세요."><br></br>
+      <button class="nextbtn" style="margin-left: 10px; line-height: 40pt;" onclick="callNext()">다음</button>
+    </div>
+  </div>
+
+  <div class="row" id="step2" style="display: none;"> 
+    <div class="column">
+      <img src="/images/03.jpg" style="width:100%">
+    </div>
+    <div class="column" style="background-color :whitesmoke; align-items: left;  display: flex;  justify-content: center; flex-direction: column; padding-left: 10pt; " >
+      <strong class="point" style="margin-left: 10px; line-height: 40pt;">핸드폰번호를 알려주세요.</strong>
+      <strong class="point" style="margin-left: 10px; font-weight: normal; font-size: 14pt; line-height: 40pt;">혜택제공 및 상담을 위해 정확히 입력해주세요!</strong>
+      <input class="text"  name="phoneField" id="phoneField" placeholder="핸드폰 번호를 입력하세요.(- 제외, 숫자만 입력)" onkeypress="validate(event)" maxlength="10"><br></br>
+      <button class="nextbtn" style="margin-left: 10px; line-height: 40pt; " onclick="callNext()">다음</button>
+    </div>
+  </div>
+
+  <div class="row" id="step3" style="display: none;"> 
+    <div class="column">
+      <img src="/images/04.jpg" style="width:100%">
+    </div>
+    <div class="column" style="background-color :whitesmoke; align-items: left;  display: flex;  justify-content: center; flex-direction: column; padding-left: 10pt; " >
+      <strong class="point" style="margin-left: 10px; line-height: 40pt;">성별을 알려주세요.</strong>
+      <strong class="point" style="margin-left: 10px; font-weight: normal; font-size: 14pt; line-height: 40pt;">성별에 따른 혜택이 상이하므로, 정확히 입력해 주세요.</strong>
+      <form style="margin-left: 10px; margin-top: 10pt; margin-bottom: 20pt; font-size: 16pt;">
+          <input type="radio" name = "sex" value = "1" id="MALE" checked onclick="getGender(event)"> 남성
+          <br></br>
+          <input type="radio" name = "sex" value = "0" onclick="getGender(event)"> 여성
+      </form>
+      <button class="nextbtn" style="margin-left: 10px; line-height: 40pt; " onclick="callNext()">다음</button>
+    </div>
+  </div>
+
+  <div class="row" id="step4" style="display: none;">  
+    <div class="column">
+      <img src="/images/05.jpg" style="width:100%">
+    </div>
+    <div class="column" style="background-color :whitesmoke; align-items: left;  display: flex;  justify-content: center; flex-direction: column; padding-left: 10pt; " >
+      <strong class="point" style="margin-left: 10px; line-height: 40pt;">거주하고 계신 지역을 알려주세요.(도/시 까지)</strong>
+      <strong class="point" style="margin-left: 10px; font-weight: normal; font-size: 14pt; line-height: 40pt;">ex)서울시, 경기도 화성시, 대전시</strong>
+      <input class="text"  name="locationField" id="locationField" placeholder="거주하는 지역을 입력하세요"><br></br>
+      <button class="nextbtn" style="margin-left: 10px; line-height: 40pt; " onclick="callNext()">다음</button>
+    </div>
+  </div>
+
+  <div class="row" id="step5" style="display: none;">  
+    <div class="column">
+      <img src="/images/06.jpg" style="width:100%">
+    </div>
+    <div class="column" style="background-color :whitesmoke; align-items: left;  display: flex;  justify-content: center; flex-direction: column; padding-left: 10pt; " >
+      <strong class="point" style="margin-left: 10px; line-height: 40pt;">나이를 알려주세요.</strong>
+      <strong class="point" style="margin-left: 10px; font-weight: normal; font-size: 14pt; line-height: 40pt;">현재 나이를 입력해주세요.</strong>
+      <input class="text"  name="ageField" id="ageField" placeholder="나이를 입력하세요.(숫자)" onkeypress="validate(event)"><br></br>
+      <button class="nextbtn" style="margin-left: 10px; line-height: 40pt; " onclick="callNext()">다음</button>
+    </div>
+  </div>
+
+  <div class="row" id="step6" style="display: none;">  
+    <div class="column">
+      <img src="/images/08.jpg" style="width:100%">
+    </div>
+    <div class="column" style="background-color :whitesmoke; align-items: left;  display: flex;  justify-content: center; flex-direction: column; padding-left: 10pt; " >
+      <strong class="point" style="margin-left: 10px; line-height: 40pt;">최근 3개월 내 병원진료를 받은신 적이 있나요?</strong>
+      <form style="margin-left: 10px; margin-top: 10pt; margin-bottom: 20pt; font-size: 16pt;">
+        <input type="radio" name = "doTreatment" value = "1" id="doTreatment" checked onclick="getDoTreatment(event)"> 네
+        <br></br>
+        <input type="radio" name = "doTreatment" value = "0" onclick="getDoTreatment(event)"> 아니오
+     </form>
+      <button class="nextbtn" style="margin-left: 10px; line-height: 40pt; " onclick="callNext()">다음</button>
+    </div>
+  </div>
+
+  <div class="row" id="step7" style="display: none;">  
+    <div class="column">
+      <img src="/images/015.jpg" style="width:100%">
+    </div>
+    <div class="column" style="background-color :whitesmoke; align-items: left;  display: flex;  justify-content: center; flex-direction: column; padding-left: 10pt; " >
+      <strong class="point" style="margin-left: 10px; margin-top: 10px;">무료로 건강검진을 받고싶은 프로그램을 선택해주세요.(다수선택 가능)</strong>
+      <p class="point" style="margin-left: 10px; font-weight: normal; font-size: 14pt; ">정상내수가 25만원 상당의 검진을 무료로 지원해드립니다.🙂 (기본 항목 이외의 검사에는 별도의 금액이 발생할 수 있습니다.)</p>
+      <form style="margin-left: 10px; margin-top: 10pt; margin-bottom: 20pt; font-size: 16pt; vertical-align: middle; line-height: 16pt;">
+        <input type="radio" name = "stomach" id="stomach" value = 1> 위내시경           <br></br>
+        <input type="radio" name = "largeintestine" id="largeintestine" value = 1> 대장 내시경          <br></br>
+        <input type="radio" name = "thyroidgland" id="thyroidgland" value = 1> 갑상선 초음파          <br></br>
+        <input type="radio" name = "epigastrium" id="epigastrium" value = 1> 상복부 초음파          <br></br>
+        <input type="radio" name = "liver" id="liver" value = 1> 간 초음파          <br></br>
+        <input type="radio" name = "kidney" id="kidney" value = 1> 신장 초음파          <br></br>
+        <input type="radio" name = "pancreas" id="pancreas" value = 1> 췌장 초음파          <br></br>
+        <input type="radio" name = "spleen" id="spleen" value = 1> 비장 초음파          <br></br>
+        <input type="radio" name = "gallbaldder" id="gallbaldder" value = 1> 담낭 초음파          <br></br>
+        <input type="radio" name = "precisionBlood" id="precisionBlood" value = 1> 정밀혈액검사          <br></br>
+        <input type="radio" name = "precisionUrine" id="precisionUrine" value = 1> 정밀소변검사          <br></br>
+        <input type="radio" name = "etc" id="etc" value = 1> 기타(상담)          
+     </form>
+      <button class="nextbtn" style="margin-left: 10px; line-height: 40pt; " onclick="callNext()">다음</button>
+    </div>
+  </div>
+
+  <div class="row" id="step8" style="display: none;">  
+    <div class="column">
+      <img src="/images/13.png" style="width:100%">
+    </div>
+    <div class="column" style="background-color :whitesmoke; align-items: left;  display: flex;  justify-content: center; flex-direction: column; padding-left: 10pt; " >
+      <strong class="point" style="margin-left: 10px; line-height: 40pt;">건강검진 전 어센틱 플래너를 통해 보장분석 받으시는 것에 대해 동의하시나요?</strong>
+      <p class="point" style="margin-left: 10px; font-weight: normal; font-size: 14pt; line-height: 40pt;">건강검진 혜택과 어센틱 플래너의 보장분석을 받으실 수 있도록 동의를 선택해주세요!</p>
+      <a href="https://www.sheeps.kr/afg" style="margin-left: 10px;" target="_blank"> 약관전체보기 </a>
+      <form style="margin-left: 10px; margin-top: 10pt; margin-bottom: 20pt; font-size: 16pt; vertical-align: middle;">
+        <input type="radio" name = "guaranteeAnalysis" value = "1" id="guaranteeAnalysis" checked onclick="getGuaranteeAnalysis(event)"> 동의          <br></br>
+        <input type="radio" name = "guaranteeAnalysis" value = "0" onclick="getGuaranteeAnalysis(event)"> 비동의
+     </form>
+      <button class="nextbtn" style="margin-left: 10px; line-height: 40pt; " onclick="callNext()">다음</button>
+    </div>
+  </div>
+
+  <div class="row" id="step9" style="display: none;">  
+    <div class="column">
+      <img src="/images/11.jpg" style="width:100%">
+    </div>
+    <div class="column" style="background-color :whitesmoke; align-items: left;  display: flex;  justify-content: center; flex-direction: column; padding-left: 10pt; " >
+      <strong class="point" style="margin-left: 10px; line-height: 40pt;">개인정보 수집 및 이용 동의</strong>
+      <form style="margin-left: 10px; margin-top: 10pt; margin-bottom: 20pt; font-size: 16pt; vertical-align: middle;">
+        <input type="radio" name = "collecting" value = "1" id="collecting" checked onclick="getCollecting(event)"> 동의          <br></br>
+        <input type="radio" name = "collecting" value = "0" onclick="getCollecting(event)"> 비동의
+     </form>
+      <button class="nextbtn" style="margin-left: 10px; line-height: 40pt; " onclick="callSubmit()">제출</button> 
+    </div>
+  </div>
+<script>
+
+var Personal = {
+    name : "",
+    phoneNumber : "",
+    sex : 1,
+    location : "",
+    age : 0,
+    doTreatment : false,
+    stomach : false,
+    largeintestine : false,
+    thyroidgland : false,
+    epigastrium : false,
+    liver : false,
+    kidney : false,
+    pancreas : false,
+    spleen : false,
+    gallbaldder : false,
+    precisionBlood : false,
+    precisionUrine : false,
+    etc : false,
+    guaranteeAnalysis : true,
+    collecting : true
+};
+
+var step = 1;
+
+function validate(evt) {
+  var theEvent = evt || window.event;
+
+  // Handle paste
+  if (theEvent.type === 'paste') {
+      key = event.clipboardData.getData('text/plain');
+  } else {
+  // Handle key press
+      var key = theEvent.keyCode || theEvent.which;
+      key = String.fromCharCode(key);
+  }
+  var regex = /[0-9]|\./;
+  if( !regex.test(key) ) {
+    theEvent.returnValue = false;
+    if(theEvent.preventDefault) theEvent.preventDefault();
+  }
+}
+
+function checkNext() {
+  var bCheck = true;
+
+  switch(step){
+    case 1 : bCheck = document.getElementById('nameField').value ? true : false; break;
+    case 2 : bCheck = document.getElementById('phoneField').value ? true : false; break;
+    case 3 : break;
+    case 4 : bCheck = document.getElementById('locationField').value ? true : false; break;
+    case 5 : bCheck = document.getElementById('ageField').value ? true : false; break;
+    case 6 : break;
+    case 7 : break;
+    case 8 : break;
+    case 9 : break;
+  }
+
+  return bCheck;
+}
+
+function callNext() {
+    if(checkNext() == true){
+      document.getElementById("step" + step.toString()).style.display = "none";
+
+      switch(step){
+        case 1 : Personal.name = document.getElementById('nameField').value; break;
+        case 2 : Personal.phoneNumber = document.getElementById('phoneField').value; break;
+        case 3 : break;
+        case 4 : Personal.location = document.getElementById('locationField').value; break;
+        case 5 : Personal.age = document.getElementById('ageField').value; break;
+        case 6 : break;
+        case 7 : 
+        {
+            if(document.getElementById('stomach').checked){ Personal.stomach = document.getElementById('stomach').value == "1" ? true : false }
+            if(document.getElementById('largeintestine').checked){ Personal.largeintestine = document.getElementById('largeintestine').value == "1" ? true : false }
+            if(document.getElementById('thyroidgland').checked){ Personal.thyroidgland = document.getElementById('thyroidgland').value == "1" ? true : false }
+            if(document.getElementById('epigastrium').checked){ Personal.epigastrium = document.getElementById('epigastrium').value == "1" ? true : false }
+            if(document.getElementById('liver').checked){ Personal.liver = document.getElementById('liver').value == "1" ? true : false }
+            if(document.getElementById('kidney').checked){ Personal.kidney = document.getElementById('kidney').value == "1" ? true : false }
+            if(document.getElementById('pancreas').checked){ Personal.pancreas = document.getElementById('pancreas').value == "1" ? true : false }
+            if(document.getElementById('spleen').checked){ Personal.spleen = document.getElementById('spleen').value == "1" ? true : false }
+            if(document.getElementById('gallbaldder').checked){ Personal.gallbaldder = document.getElementById('gallbaldder').value == "1" ? true : false }
+            if(document.getElementById('precisionBlood').checked){ Personal.precisionBlood = document.getElementById('precisionBlood').value == "1" ? true : false }
+            if(document.getElementById('precisionUrine').checked){ Personal.precisionUrine = document.getElementById('precisionUrine').value == "1" ? true : false }
+            if(document.getElementById('etc').checked){ Personal.etc = document.getElementById('etc').value == "1" ? true : false }
+        }
+        break;
+        case 8 : break;
+        case 9 : break;
+      }
+
+      step++;
+
+      document.getElementById("step" + step.toString()).style.display = "";
+    }else{
+      alert('내용을 정확히 입력해 주세요.');
+    }
+}
+
+function callBack() {
+    document.getElementById("step" + step.toString()).style.display = "none";
+
+    step--;
+
+    if(step == 0){
+      history.back();
+    }
+    else{
+      document.getElementById("step" + step.toString()).style.display = "";
+    }
+}
+
+function callSubmit() {
+  var formData = {};
+  formData.name = Personal.name;
+  formData.phoneNumber = Personal.phoneNumber;
+  formData.sex = Personal.sex;
+  formData.location = Personal.location;
+  formData.age = Personal.age;
+  formData.doTreatment = Personal.doTreatment;
+  formData.stomach = Personal.stomach;
+  formData.largeintestine = Personal.largeintestine;
+  formData.thyroidgland = Personal.thyroidgland;
+  formData.epigastrium = Personal.epigastrium;
+  formData.liver = Personal.liver;
+  formData.kidney = Personal.kidney;
+  formData.pancreas = Personal.pancreas;
+  formData.spleen = Personal.spleen;
+  formData.gallbaldder = Personal.gallbaldder;
+  formData.precisionBlood = Personal.precisionBlood;
+  formData.precisionUrine = Personal.precisionUrine;
+  formData.etc = Personal.etc;
+  formData.guaranteeAnalysis = Personal.guaranteeAnalysis;
+  formData.collecting = Personal.collecting;
+
+  jQuery.ajax({
+  url: "/InsertTest", //cross-domain error가 발생하지 않도록 주의해주세요
+      type: 'POST',
+      contentType: 'application/json',
+      dataType: 'json',
+      data: JSON.stringify(formData)
+  }).done(function(data) {
+    winClose();
+    alert( "성공적으로 설문조사에 응하셨습니다." );
+  }).fail(function(jqXHR) {
+    alert( "오류가 발생하였습니다. 다시 시도해 주세요." );
+  })
+}
+
+function winClose(){
+    window.close();
+    self.close();
+    window.opener = window.location.href; self.close();
+    window.open('about:blank','_self').close();
+}
+
+function getGender(event){
+  Personal.sex = event.target.value == 1 ? true : false;
+}
+
+function getDoTreatment(event){
+  Personal.doTreatment = event.target.value == 1 ? true : false;
+}
+
+function getGuaranteeAnalysis(event){
+  Personal.guaranteeAnalysis = event.target.value == 1 ? true : false;
+}
+
+function getCollecting(event){
+  Personal.collecting = event.target.value == 1 ? true : false;
+}
+
+</script>
+
+</body>
+</html>
